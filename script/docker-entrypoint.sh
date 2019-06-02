@@ -1,21 +1,17 @@
 #!/bin/bash
 
-#!/bin/sh
-
 set -e
 
-if [ "$1" = 'pgpool' ]; then
+export PCP_PASSWORD_MD5=`pg_md5 ${PCP_PASSWORD}`
 
-  configure-pgpool2
+gucci /usr/share/pgpool2/pcp.conf.template > /etc/pcp.conf
+gucci /usr/share/pgpool2/pgpool.conf.template > /etc/pgpool.conf
+gucci /usr/share/pgpool2/pool_hba.conf.template > /etc/pool_hba.conf
 
-  sed -i "s:socket_dir = '.*':socket_dir = '/var/run/pgpool':g" /etc/pgpool2/pgpool.conf
-  sed -i "s:pcp_socket_dir = '.*':pcp_socket_dir = '/var/run/pgpool':g" /etc/pgpool2/pgpool.conf
-  IP_ADDR=$(ip addr show eth0 | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
-  sed -i "s:listen_addresses = '.*':listen_addresses = '$IP_ADDR':g" /etc/pgpool2/pgpool.conf
+/usr/bin/pg_md5 -m -f /etc/pgpool.conf -u ${PG_USERNAME} ${PG_PASSWORD}
+# if [ "$1" = 'pgpool-server' ]; then
+# 	exec pgpool "$@"
+# fi
 
-  gosu ${SYS_USER} "$@"
-
-fi
-
-
+pgpool -f /etc/pgpool.conf -F /etc/pcp.conf -a /etc/pool_hba.conf
 exec "$@"
