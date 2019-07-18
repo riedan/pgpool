@@ -14,9 +14,10 @@ ENV PG_VERSION 11.4-r0
 
 ENV LANG C
 
-RUN apk --update --no-cache add libpq=${PG_VERSION} postgresql-dev=${PG_VERSION} postgresql-client=${PG_VERSION} \
+RUN apk update && apk upgrade \
+  &&  apk --update --no-cache add libpq=${PG_VERSION} postgresql-dev=${PG_VERSION} postgresql-client=${PG_VERSION} \
                                 linux-headers gcc make libgcc g++ \
-                                libffi-dev python python-dev py2-pip libffi-dev dos2unix && \
+                                libffi-dev python python-dev py2-pip libffi-dev tzdata openntpd ca-certificates openssl openssh git dos2unix && \
     cd /tmp && \
     wget http://www.pgpool.net/mediawiki/images/pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz && \
     chown root:root -R /tmp/pgpool-II-${PGPOOL_VERSION} && \
@@ -24,7 +25,9 @@ RUN apk --update --no-cache add libpq=${PG_VERSION} postgresql-dev=${PG_VERSION}
     ./configure --prefix=/usr \
                 --sysconfdir=/etc \
                 --mandir=/usr/share/man \
-                --infodir=/usr/share/info && \
+                --infodir=/usr/share/info
+                --with-openssl
+                 && \
     make && \
     make install && \
     rm -rf /tmp/pgpool-II-${PGPOOL_VERSION} && \
