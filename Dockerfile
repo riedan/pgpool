@@ -19,7 +19,7 @@ ENV LANG C
 RUN apk update && apk upgrade \
   &&  apk --update --no-cache  add libpq \
                                    linux-headers gcc make libgcc g++ \
-                                   libffi-dev python python-dev py2-pip && \
+                                   libffi-dev python python-dev py2-pip openssl-dev && \
     mkdir -p  ${PG_POOL_INSTALL_PATH} &&  \
     cd ${PG_POOL_INSTALL_PATH} && \
     wget https://www.pgpool.net/mediawiki/images/pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz  --directory  ${PG_POOL_INSTALL_PATH}  --strip-components=1 --no-same-owner && \
