@@ -19,7 +19,7 @@ ENV LANG C
 RUN apk update && apk upgrade \
   &&  apk --update --no-cache  add libpq \
                                    linux-headers gcc make libgcc g++ \
-                                   libffi-dev python python-dev py2-pip openssl-dev && \
+                                   libffi-dev python python-dev py2-pip openssl-dev dos2unix  bash su-exec && \
     mkdir -p  ${PG_POOL_INSTALL_PATH} &&  \
     cd ${PG_POOL_INSTALL_PATH} && \
     wget https://www.pgpool.net/mediawiki/images/pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz  --directory  ${PG_POOL_INSTALL_PATH}  --strip-components=1 --no-same-owner && \
@@ -38,11 +38,12 @@ RUN apk update && apk upgrade \
 
 RUN pip install Jinja2
 
-RUN mkdir -p /etc/pgpool2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql/ && \
-    chown ${SYS_USER}:${SYS_GROUP} -R /etc/pgpool2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql
+RUN mkdir -p /etc/pgpool2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql/  /usr/share/pgpool2 && \
+    chown ${SYS_USER}:${SYS_GROUP} -R /etc/pgpool2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql \
+     /usr/share/pgpool2
 
 # Post Install Configuration.
-ADD bin/configure-pgpool2.py /usr/bin/configure-pgpool2
+ADD bin/configure-pgpool2 /usr/bin/configure-pgpool2
 RUN dos2unix /usr/bin/configure-pgpool2
 RUN chmod +x /usr/bin/configure-pgpool2
 
