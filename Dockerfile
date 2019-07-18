@@ -32,11 +32,13 @@ RUN apk update && apk upgrade \
     make && \
     make install && \
     rm -rf ${PG_POOL_INSTALL_PATH} && \
+    rm -rf /usr/local/share/postgresql  /usr/local/lib/* /usr/local/bin/* /usr/local/include/* && \
     apk del  postgresql-dev linux-headers gcc make libgcc g++
+    apk --update --no-cache  add postgresql-client
 
 RUN pip install Jinja2
 
-RUN mkdir /etc/pgpool2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql/ && \
+RUN mkdir -p /etc/pgpool2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql/ && \
     chown ${SYS_USER}:${SYS_GROUP} -R /etc/pgpool2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql
 
 # Post Install Configuration.
