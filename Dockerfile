@@ -1,4 +1,4 @@
-FROM alpine
+FROM postgres:9.6-alpine
 
 ENV SYS_GROUP postgres
 ENV SYS_USER postgres
@@ -8,7 +8,7 @@ RUN set -eux; \
 	getent group ${SYS_GROUP} || addgroup -S ${SYS_GROUP}; \
 	getent passwd ${SYS_USER} || adduser -S ${SYS_USER}  -G ${SYS_GROUP} -s "/bin/sh";
 
-ENV PGPOOL_VERSION 4.0.5
+ENV PGPOOL_VERSION 3.7.10
 
 ENV PG_POOL_INSTALL_PATH  /opt/pgpool
 
@@ -17,9 +17,9 @@ ENV PG_VERSION 11.4-r0
 ENV LANG C
 
 RUN apk update && apk upgrade \
-  &&  apk --update --no-cache add curl build-base binutils  flex bison opensp openjade perl libxml2-utils docbook2x libbsd musl-dev bind-dev libpq postgresql-dev postgresql-client openssl-dev \
-                                linux-headers gcc make libgcc g++ file imagemagick-dev libjpeg-turbo-dev libpng-dev  \
-                                libffi-dev py-setproctitle python python2 python2-dev python-dev py2-pip  tzdata openntpd ca-certificates openssl openssh git dos2unix && \
+  &&  apk --update --no-cache  add libpq \
+                                   linux-headers gcc make libgcc g++ \
+                                   libffi-dev python python-dev py2-pip && \
     mkdir -p  ${PG_POOL_INSTALL_PATH} &&  \
     cd ${PG_POOL_INSTALL_PATH} && \
     wget https://www.pgpool.net/mediawiki/images/pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz  --directory  ${PG_POOL_INSTALL_PATH}  --strip-components=1 --no-same-owner && \
@@ -32,7 +32,7 @@ RUN apk update && apk upgrade \
     make && \
     make install && \
     rm -rf ${PG_POOL_INSTALL_PATH} && \
-    apk del postgresql-dev linux-headers gcc make libgcc g++ build-base binutils  flex bison opensp openjade perl libxml2-utils docbook2x libbsd musl-dev bind-dev  file imagemagick-dev libjpeg-turbo-dev libpng-dev libffi-dev openssh git openntpd tzdata
+    apk del  postgresql-dev linux-headers gcc make libgcc g++
 
 RUN pip install Jinja2
 
