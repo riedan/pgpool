@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine
 
 ENV SYS_GROUP postgres
 ENV SYS_USER postgres
@@ -10,7 +10,7 @@ RUN set -eux; \
 
 ENV PGPOOL_VERSION 4.0.5
 
-ENV PG_VERSION 11.3-r0
+ENV PG_VERSION 11.4-r0
 
 ENV LANG C
 
