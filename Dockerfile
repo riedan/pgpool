@@ -22,12 +22,7 @@ RUN apk update && apk upgrade \
     wget http://www.pgpool.net/mediawiki/images/pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz && \
     chown root:root -R /tmp/pgpool-II-${PGPOOL_VERSION} && \
     cd /tmp/pgpool-II-${PGPOOL_VERSION} && \
-    ./configure --prefix=/usr \
-                --sysconfdir=/etc \
-                --mandir=/usr/share/man \
-                --infodir=/usr/share/info \
-                --with-openssl \
-                 && \
+    ./configure --with-openssl && \
     make && \
     make install && \
     rm -rf /tmp/pgpool-II-${PGPOOL_VERSION} && \
