@@ -18,7 +18,7 @@ ENV LANG C
 
 RUN apk update && apk upgrade \
   &&  apk --update --no-cache add curl build-base binutils  flex bison opensp openjade perl libxml2-utils docbook2x libbsd musl-dev bind-dev libpq postgresql-dev postgresql-client openssl-dev \
-                                linux-headers gcc make libgcc g++ file \
+                                linux-headers gcc make libgcc g++ file imagemagick-dev libjpeg-turbo-dev libpng-dev  \
                                 libffi-dev py-setproctitle python python2 python2-dev python-dev py2-pip libffi-dev tzdata openntpd ca-certificates openssl openssh git dos2unix && \
     mkdir -p  ${PG_POOL_INSTALL_PATH} &&  \
     cd ${PG_POOL_INSTALL_PATH} && \
