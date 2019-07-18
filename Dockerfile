@@ -14,9 +14,9 @@ ENV PGPOOL_VERSION 4.0.5
 ENV LANG C.UTF-8
 
 
-RUN apk --update --no-cache add libpq postgresql-dev postgresql-client \
+RUN apk --update --no-cache add  build-base libpq postgresql-dev postgresql-client   \
                                  linux-headers libmemcached libmemcached-dev openssl-dev openssl\
-                                 gcc make libgcc g++ dos2unix 	file \
+                                 gcc make libgcc g++ dos2unix file \
                                  libffi-dev python python-dev py2-pip libffi-dev && \
      cd /tmp && \
      wget http://www.pgpool.net/mediawiki/images/pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz && \
@@ -27,7 +27,7 @@ RUN apk --update --no-cache add libpq postgresql-dev postgresql-client \
                  --mandir=/usr/share/man \
                  --infodir=/usr/share/info \
                  --with-openssl \
- 		             --with-memcached-dir=/usr/include/libmemcached && \
+ 		             --with-memcached=/usr/include/libmemcached && \
      make && \
      make install && \
      rm -rf /tmp/pgpool-II-${PGPOOL_VERSION} && \
