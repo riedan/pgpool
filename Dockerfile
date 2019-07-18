@@ -33,7 +33,7 @@ RUN apk update && apk upgrade \
     make install && \
     rm -rf ${PG_POOL_INSTALL_PATH} && \
     rm -rf /usr/local/share/postgresql  /usr/local/lib/* /usr/local/bin/* /usr/local/include/* && \
-    apk del  postgresql-dev linux-headers gcc make libgcc g++
+    apk del  postgresql-dev linux-headers gcc make libgcc g++ &&\
     apk --update --no-cache  add postgresql-client
 
 RUN pip install Jinja2
