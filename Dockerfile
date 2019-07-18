@@ -1,4 +1,4 @@
-FROM alpine
+FROM postgres:9.6-alpine
 
 ENV SYS_GROUP postgres
 ENV SYS_USER postgres
@@ -15,8 +15,8 @@ ENV PG_VERSION 11.4-r0
 ENV LANG C
 
 RUN apk update && apk upgrade \
-  &&  apk --update --no-cache add build-base binutils  flex bison opensp openjade perl libxml2-utils docbook2x libbsd musl-dev bind-dev libpq=${PG_VERSION} postgresql-dev=${PG_VERSION} postgresql-client=${PG_VERSION}  openssl-dev \
-                                linux-headers gcc make libgcc g++ file \
+  &&  apk --update --no-cache add build-base binutils  flex bison opensp openjade perl libxml2-utils docbook2x libbsd musl-dev bind-dev libpq openssl-dev \
+                                linux-headers gcc make libgcc g++  \
                                 libffi-dev py-setproctitle python python2 python2-dev python-dev py2-pip libffi-dev tzdata openntpd ca-certificates openssl openssh git dos2unix && \
     cd /tmp && \
     wget http://www.pgpool.net/mediawiki/images/pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz && \
