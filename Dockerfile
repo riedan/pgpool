@@ -9,13 +9,12 @@ RUN set -eux; \
 	getent passwd ${SYS_USER} || adduser -S ${SYS_USER}  -G ${SYS_GROUP} -s "/bin/sh";
 
 ENV PGPOOL_VERSION 4.0.5
-ENV PGPOOL_ADMIN_VERSION 4.0.1
-ENV PG_VERSION 11.3-r0
+
 
 ENV LANG C.UTF-8
 
 
-RUN apk --update --no-cache add libpq=${PG_VERSION} postgresql-dev=${PG_VERSION} postgresql-client=${PG_VERSION} \
+RUN apk --update --no-cache add libpq postgresql-dev postgresql-client \
                                  linux-headers libmemcached libmemcached-dev openssl-dev openssl\
                                  gcc make libgcc g++ dos2unix \
                                  libffi-dev python python-dev py2-pip libffi-dev && \
