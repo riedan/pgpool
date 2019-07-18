@@ -26,7 +26,7 @@ RUN apk update && apk upgrade \
                 --sysconfdir=/etc \
                 --mandir=/usr/share/man \
                 --infodir=/usr/share/info
-                --with-openssl
+                --with-openssl \
                  && \
     make && \
     make install && \
