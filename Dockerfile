@@ -15,7 +15,7 @@ ENV PG_VERSION 11.4-r0
 ENV LANG C
 
 RUN apk update && apk upgrade \
-  &&  apk --update --no-cache add libpq=${PG_VERSION} postgresql-dev=${PG_VERSION} postgresql-client=${PG_VERSION}  openssl-dev \
+  &&  apk --update --no-cache add build-base libpq=${PG_VERSION} postgresql-dev=${PG_VERSION} postgresql-client=${PG_VERSION}  openssl-dev \
                                 linux-headers gcc make libgcc g++ file \
                                 libffi-dev python python-dev py2-pip libffi-dev tzdata openntpd ca-certificates openssl openssh git dos2unix && \
     cd /tmp && \
