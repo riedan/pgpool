@@ -19,11 +19,10 @@ ENV LANG C
 RUN apk update && apk upgrade \
   &&  apk --update --no-cache add curl build-base binutils  flex bison opensp openjade perl libxml2-utils docbook2x libbsd musl-dev bind-dev libpq postgresql-dev postgresql-client openssl-dev \
                                 linux-headers gcc make libgcc g++ file imagemagick-dev libjpeg-turbo-dev libpng-dev  \
-                                libffi-dev py-setproctitle python python2 python2-dev python-dev py2-pip libffi-dev tzdata openntpd ca-certificates openssl openssh git dos2unix && \
+                                libffi-dev py-setproctitle python python2 python2-dev python-dev py2-pip  tzdata openntpd ca-certificates openssl openssh git dos2unix && \
     mkdir -p  ${PG_POOL_INSTALL_PATH} &&  \
     cd ${PG_POOL_INSTALL_PATH} && \
-    curl -Ls http://www.pgpool.net/mediawiki/images/pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz  --directory  ${PG_POOL_INSTALL_PATH}  --strip-components=1 --no-same-owner && \
-    chown root:root -R /tmp/pgpool-II-${PGPOOL_VERSION} && \
+    wget https://www.pgpool.net/download.php?f=pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz  --directory  ${PG_POOL_INSTALL_PATH}  --strip-components=1 --no-same-owner && \
     cd ${PG_POOL_INSTALL_PATH} && \
     ./configure --prefix=/usr \
                 --sysconfdir=/etc \
@@ -32,8 +31,8 @@ RUN apk update && apk upgrade \
                 --with-openssl && \
     make && \
     make install && \
-    rm -rf /tmp/pgpool-II-${PGPOOL_VERSION} && \
-    apk del postgresql-dev linux-headers gcc make libgcc g++
+    rm -rf ${PG_POOL_INSTALL_PATH} && \
+    apk del postgresql-dev linux-headers gcc make libgcc g++ build-base binutils  flex bison opensp openjade perl libxml2-utils docbook2x libbsd musl-dev bind-dev  file imagemagick-dev libjpeg-turbo-dev libpng-dev libffi-dev openssh git openntpd tzdata
 
 RUN pip install Jinja2
 
