@@ -22,7 +22,7 @@ RUN apk update && apk upgrade \
                                 libffi-dev py-setproctitle python python2 python2-dev python-dev py2-pip  tzdata openntpd ca-certificates openssl openssh git dos2unix && \
     mkdir -p  ${PG_POOL_INSTALL_PATH} &&  \
     cd ${PG_POOL_INSTALL_PATH} && \
-    wget https://www.pgpool.net/download.php?f=pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz  --directory  ${PG_POOL_INSTALL_PATH}  --strip-components=1 --no-same-owner && \
+    wget https://www.pgpool.net/mediawiki/images/pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz  --directory  ${PG_POOL_INSTALL_PATH}  --strip-components=1 --no-same-owner && \
     cd ${PG_POOL_INSTALL_PATH} && \
     ./configure --prefix=/usr \
                 --sysconfdir=/etc \
