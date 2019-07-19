@@ -40,9 +40,9 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-RUN mkdir -p /etc/pgpoo2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql/  /usr/share/pgpoo2 && \
-    chown ${SYS_USER}:${SYS_GROUP} -R /etc/pgpoo2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql \
-     /usr/share/pgpoo2
+RUN mkdir -p /etc/pgpool2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql/  /usr/share/pgpool2 && \
+    chown ${SYS_USER}:${SYS_GROUP} -R /etc/pgpool2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql \
+     /usr/share/pgpool2
 
 
 
