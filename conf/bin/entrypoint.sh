@@ -9,8 +9,12 @@ export PCPPASSFILE='/etc/pgpoo2/.pcppass'
 
 
 
+
 echo '>>> TURNING PGPOOL...'
 /usr/local/bin/pgpool/pgpool_setup.sh
+
+
+chown ${SYS_USER}:${SYS_GROUP} -R /etc/pgpoo2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql /usr/share/pgpoo2
 
 echo '>>> STARTING PGPOOL...'
 su-exec ${SYS_USER} /usr/local/bin/pgpool/pgpool_start.sh
