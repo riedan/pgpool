@@ -216,7 +216,7 @@ reset_query_list = 'ABORT; DISCARD ALL'
 # REPLICATION MODE
 #------------------------------------------------------------------------------
 
-replication_mode = off
+replication_mode = true
                                    # Activate replication mode
                                    # (change requires restart)
 replicate_select = off
@@ -256,7 +256,7 @@ failover_if_affected_tuples_mismatch = off
 # LOAD BALANCING MODE
 #------------------------------------------------------------------------------
 
-load_balance_mode = off
+load_balance_mode = true
                                    # Activate load balancing mode
                                    # (change requires restart)
 ignore_leading_white_space = on
