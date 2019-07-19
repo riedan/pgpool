@@ -17,7 +17,7 @@ ENV LANG C
 
 RUN apk update && apk upgrade \
   &&  apk --update --no-cache  add libpq \
-                                   linux-headers gcc make libgcc g++ postgresql-client postgresql-dev \
+                                   linux-headers gcc make libgcc g++ postgresql-client postgresql-dev dockerize\
                                     bash su-exec && \
     mkdir -p  ${PG_POOL_INSTALL_PATH} &&  \
     cd ${PG_POOL_INSTALL_PATH} && \
