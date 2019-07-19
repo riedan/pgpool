@@ -16,8 +16,9 @@ ENV PG_POOL_INSTALL_PATH  /opt/pgpool
 ENV LANG C
 
 RUN apk update && apk upgrade \
+  && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted dockerize \
   &&  apk --update --no-cache  add libpq \
-                                   linux-headers gcc make libgcc g++ postgresql-client postgresql-dev dockerize\
+                                   linux-headers gcc make libgcc g++ postgresql-client postgresql-dev \
                                     bash su-exec && \
     mkdir -p  ${PG_POOL_INSTALL_PATH} &&  \
     cd ${PG_POOL_INSTALL_PATH} && \
