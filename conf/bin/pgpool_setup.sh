@@ -7,9 +7,9 @@ cp -f /var/pgpool_configs/pgpool.conf $CONFIG_FILE
 if [ "${SSL_MODE}" = "on" ]; then
   sed -i "s@#*.*\(ssl =\).*@\1 \'${SSL_MODE}\'@;" $CONFIG_FILE
 
-  sed -i "s/#*.*\(ssl_cert =\).*/\1$ ${SSL_CERT_FILE}/;" $CONFIG_FILE
-  sed -i "s/#*.*\(ssl_key =\).*/\1 ${SSL_KEY_FILE}/;" $CONFIG_FILE
-  sed -i "s/#*.*\(ssl_ca_cert =\).*/\1 ${SSL_CA_FILE}/;"  $CONFIG_FILE
+  sed -i "s@#*.*\(ssl_cert =\).*@\1$ \'${SSL_CERT_FILE}\'@;" $CONFIG_FILE
+  sed -i "s@#*.*\(ssl_key =\).*@\1 \'${SSL_KEY_FILE}\'@;" $CONFIG_FILE
+  sed -i "s@#*.*\(ssl_ca_cert =\).*@\1 \'${SSL_CA_FILE}\'@;"  $CONFIG_FILE
 
   echo ">>> Opening access from all hosts by md5 in $HBA_FILE"
   echo "hostssl all all 0.0.0.0/0 md5" > $HBA_FILE
