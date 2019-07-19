@@ -9,15 +9,14 @@ RUN set -eux; \
 	getent passwd ${SYS_USER} || adduser -S ${SYS_USER}  -G ${SYS_GROUP} -s "/bin/sh";
 
 ENV PGPOOL_VERSION 3.7.10
-
+ENV DOCKERIZE_VERSION v0.6.1
 ENV PG_POOL_INSTALL_PATH  /opt/pgpool
 
 
 ENV LANG C
 
 RUN apk update && apk upgrade \
-  && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted dockerize \
-  &&  apk --update --no-cache  add libpq \
+  &&  apk --update --no-cache  add libpq openssl \
                                    linux-headers gcc make libgcc g++ postgresql-client postgresql-dev \
                                     bash su-exec && \
     mkdir -p  ${PG_POOL_INSTALL_PATH} &&  \
@@ -37,6 +36,10 @@ RUN apk update && apk upgrade \
    # apk --update --no-cache  add postgresql-client
 
 
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
 RUN mkdir -p /etc/pgpoo2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql/  /usr/share/pgpoo2 && \
     chown ${SYS_USER}:${SYS_GROUP} -R /etc/pgpoo2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql \
      /usr/share/pgpoo2
@@ -48,7 +51,7 @@ COPY ./conf/configs /var/pgpool_configs
 #make sure the file can be executed
 
 
-RUN chmod +x -R /usr/local/bin/pgpool
+RUN chmod +x -R /usr/local/bin/pgpool /usr/local/bin/dockerize
 
 ENV CHECK_USER replication_user
 ENV CHECK_PASSWORD replication_pass
@@ -62,8 +65,6 @@ ENV CONFIGS_DELIMITER_SYMBOL ,
 ENV CONFIGS_ASSIGNMENT_SYMBOL :
                                 #CONFIGS_DELIMITER_SYMBOL and CONFIGS_ASSIGNMENT_SYMBOL are used to parse CONFIGS variable
                                 # if CONFIGS_DELIMITER_SYMBOL=| and CONFIGS_ASSIGNMENT_SYMBOL=>, valid configuration string is var1>val1|var2>val2
-
-
 
 
 EXPOSE 5432
