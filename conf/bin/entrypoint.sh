@@ -5,7 +5,7 @@ export CONFIG_FILE='/usr/local/etc/pgpool.conf'
 export PCP_FILE='/usr/local/etc/pcp.conf'
 export HBA_FILE='/usr/local/etc/pool_hba.conf'
 export POOL_PASSWD_FILE='/usr/local/etc/pool_passwd'
-export PCPPASSFILE ='/usr/local/etc/.pcppass'
+export PCPPASSFILE='/usr/local/etc/.pcppass'
 
 
 
