@@ -18,7 +18,7 @@ ENV LANG C
 RUN apk update && apk upgrade \
   &&  apk --update --no-cache  add libpq \
                                    linux-headers gcc make libgcc g++ postgresql-client postgresql-dev \
-                                   libffi-dev python python-dev py2-pip openssl-dev dos2unix  bash su-exec && \
+                                   libffi-dev python python-dev py2-pip openssl-dev  bash su-exec && \
     mkdir -p  ${PG_POOL_INSTALL_PATH} &&  \
     cd ${PG_POOL_INSTALL_PATH} && \
     wget https://www.pgpool.net/mediawiki/images/pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz  --directory  ${PG_POOL_INSTALL_PATH}  --strip-components=1 --no-same-owner && \
@@ -41,26 +41,14 @@ RUN mkdir -p /etc/pgpool2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /v
     chown ${SYS_USER}:${SYS_GROUP} -R /etc/pgpool2 /var/run/pgpool /var/log/pgpool /var/run/postgresql /var/log/postgresql \
      /usr/share/pgpool2
 
-# Post Install Configuration.
-ADD bin/configure-pgpool2 /usr/bin/configure-pgpool2
-RUN dos2unix /usr/bin/configure-pgpool2
-RUN chmod +x /usr/bin/configure-pgpool2
 
-ADD conf/pcp.conf.template /usr/share/pgpool2/pcp.conf.template
-ADD conf/pgpool.conf.template /usr/share/pgpool2/pgpool.conf.template
 
-RUN chmod +r /usr/share/pgpool2/pcp.conf.template /usr/share/pgpool2/pgpool.conf.template
-
-# Start the container.
-COPY script/docker-entrypoint.sh /
-RUN dos2unix /docker-entrypoint.sh && apk del dos2unix
-
-#COPY ./pgpool/bin /usr/local/bin/pgpool
-#COPY ./pgpool/configs /var/pgpool_configs
+COPY ./conf/bin /usr/local/bin/pgpool
+COPY ./conf/configs /var/pgpool_configs
 #make sure the file can be executed
 
 
-#RUN chmod +x -R /usr/local/bin/pgpool
+RUN chmod +x -R /usr/local/bin/pgpool
 
 ENV CHECK_USER replication_user
 ENV CHECK_PASSWORD replication_pass
@@ -76,9 +64,12 @@ ENV CONFIGS_ASSIGNMENT_SYMBOL :
                                 # if CONFIGS_DELIMITER_SYMBOL=| and CONFIGS_ASSIGNMENT_SYMBOL=>, valid configuration string is var1>val1|var2>val2
 
 
-RUN ["chmod", "+x", "/docker-entrypoint.sh"]
-ENTRYPOINT ["/docker-entrypoint.sh"]
 
-EXPOSE 9999 9898
 
-CMD ["pgpool","-n", "-f", "/etc/pgpool2/pgpool.conf", "-F", "/etc/pgpool2/pcp.conf"]
+EXPOSE 5432
+EXPOSE 9898
+
+HEALTHCHECK --interval=1m --timeout=10s --retries=5 \
+  CMD /usr/local/bin/pgpool/has_write_node.sh
+
+CMD ["/usr/local/bin/pgpool/entrypoint.sh"]
