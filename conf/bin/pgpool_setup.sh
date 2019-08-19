@@ -13,6 +13,7 @@ if [ "${SSL_MODE}" = "on" ]; then
 
   echo ">>> Opening access from all hosts by md5 in $HBA_FILE"
   echo "hostssl all all 0.0.0.0/0 md5" > $HBA_FILE
+  echo "host all all 0.0.0.0/0 md5" >> $HBA_FILE
 else
 
   echo ">>> Opening access from all hosts by md5 in $HBA_FILE"
