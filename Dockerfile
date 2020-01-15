@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.11
 
 ENV SYS_GROUP postgres
 ENV SYS_USER postgres
@@ -17,23 +17,8 @@ ENV LANG C
 
 RUN apk update && apk upgrade \
   &&  apk --update --no-cache  add libpq openssl \
-                                   linux-headers gcc make libgcc g++ postgresql-client postgresql-dev \
-                                    bash su-exec file && \
-    mkdir -p  ${PG_POOL_INSTALL_PATH} &&  \
-    cd ${PG_POOL_INSTALL_PATH} && \
-    wget https://www.pgpool.net/mediawiki/images/pgpool-II-${PGPOOL_VERSION}.tar.gz -O - | tar -xz  --directory  ${PG_POOL_INSTALL_PATH}  --strip-components=1 --no-same-owner && \
-    cd ${PG_POOL_INSTALL_PATH} && \
-    ./configure --prefix=/usr \
-                --sysconfdir=/etc \
-                --mandir=/usr/share/man \
-                --infodir=/usr/share/info \
-                --with-openssl && \
-    make && \
-    make install && \
-    rm -rf ${PG_POOL_INSTALL_PATH} && \
-  #  rm -rf /usr/local/share/postgresql  /usr/local/lib/* /usr/local/bin/* /usr/local/include/* /docker-entrypoint-initdb.d && \
-    apk del  postgresql-dev linux-headers gcc make libgcc g++
-   # apk --update --no-cache  add postgresql-client
+                                   postgresql-client pgpool\
+                                    bash su-exec file
 
 
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
