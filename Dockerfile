@@ -8,7 +8,7 @@ RUN set -eux; \
 	getent group ${SYS_GROUP} || addgroup -S ${SYS_GROUP}; \
 	getent passwd ${SYS_USER} || adduser -S ${SYS_USER}  -G ${SYS_GROUP} -s "/bin/sh";
 
-ENV PGPOOL_VERSION 3.7.10
+ENV PGPOOL_VERSION 4.1.0
 ENV DOCKERIZE_VERSION v0.6.1
 ENV PG_POOL_INSTALL_PATH  /opt/pgpool
 
