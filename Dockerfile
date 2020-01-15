@@ -17,8 +17,8 @@ ENV LANG C
 
 RUN apk update && apk upgrade \
   &&  apk --update --no-cache  add libpq openssl \
-                                   postgresql-client pgpool\
-                                    bash su-exec file
+                                   postgresql-client pgpool \
+                                   bash su-exec file
 
 
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
